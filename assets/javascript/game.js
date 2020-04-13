@@ -33,9 +33,11 @@ const game = {
     //assigns this value to secret_word
     //sets secret to an empty string of the same length
     randomWord: function() {
-
+        this.secret_word = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
     }
 };
+
+game.randomWord();
 
 // prettier-ignore
 
@@ -47,6 +49,7 @@ document.onkeydown = function (event) {
 
     //check character against characters user has already attempted
     if(!game.attempted.includes(keyPress)){
+       
         // check character against characters in secret word
                         //if character is present in secret word
                             //reveal matched characters to user
