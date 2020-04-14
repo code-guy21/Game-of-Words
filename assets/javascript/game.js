@@ -8,9 +8,9 @@ const game = {
     //stores previous user guesses
     attempted: [],
     
-    //secret object stores secret word
-    //hidden version revealed to user
-    //number of letters correctly solved
+    /* secret object stores secret word,
+    hidden version revealed to user,
+    number of letters correctly solved */
     secret: {
         word: null,
         hidden: null,
@@ -34,11 +34,11 @@ const game = {
 
     randomWord: function() {
 
-        //randomly selects a word from dictionary
-        //assigns this value to secret_word
+        /* randomly selects a word from dictionary
+        assigns this value to secret.word */
         this.secret.word = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
 
-        //sets secret to an empty string of the same length
+        //sets secret.hidden to an empty string of the same length
         this.secret.hidden = '_'.repeat(this.secret.word.length);
     }
 };
@@ -55,9 +55,12 @@ document.onkeydown = function (event) {
     //check character against characters user has already attempted
     if(!game.attempted.includes(keyPress)){
        
+        let matches = [];
         // check character against characters in secret word
-        for(let i=0;i<game.secret_word.length;i++){
-
+        for(let i=0;i<game.secret.word.length;i++){
+            if(game.secret.word[i] === keyPress){
+                matches.push(i);
+            }
         }
                         //if character is present in secret word
                             //reveal matched characters to user
