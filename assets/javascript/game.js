@@ -8,20 +8,23 @@ const game = {
     //stores previous user guesses
     attempted: [],
     
-    //secret word that user will attempt to solve
-    secret_word: null,
-
-    //secret word that will be partially revealed as user correctly guesses
-    secret: null,
+    //secret object stores secret word
+    //hidden version revealed to user
+    //number of letters correctly solved
+    secret: {
+        word: null,
+        hidden: null,
+        solved: 0,
+    },
     
     //stores a list of possible secret words
     dictionary: [
-        'test1',
-        'test2',
-        'test3',
-        'test4',
-        'test5',
-        'test6',
+        'dog',
+        'cat',
+        'hamster',
+        'bird',
+        'bunny',
+        'hedgehog',
     ] ,
     
     //checks if a specific character is present in the secret word
@@ -29,11 +32,14 @@ const game = {
 
     },
 
-    //randomly selects a word from dictionary
-    //assigns this value to secret_word
-    //sets secret to an empty string of the same length
     randomWord: function() {
-        this.secret_word = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
+
+        //randomly selects a word from dictionary
+        //assigns this value to secret_word
+        this.secret.word = this.dictionary[Math.floor(Math.random() * this.dictionary.length)];
+
+        //sets secret to an empty string of the same length
+        this.secret.hidden = '_'.repeat(this.secret.word.length);
     }
 };
 
@@ -44,13 +50,15 @@ game.randomWord();
 // main event listener
 document.onkeydown = function (event) {
     //store character into variable
-    const keyPress = event.key;
-
+    const keyPress = event.key.toLowerCase();
 
     //check character against characters user has already attempted
     if(!game.attempted.includes(keyPress)){
        
         // check character against characters in secret word
+        for(let i=0;i<game.secret_word.length;i++){
+
+        }
                         //if character is present in secret word
                             //reveal matched characters to user
 
