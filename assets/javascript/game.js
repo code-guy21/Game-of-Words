@@ -19,7 +19,28 @@ const game = {
 	},
 
 	//stores a list of possible secret words
-	dictionary: ['dog', 'cat', 'hamster', 'bird', 'bunny', 'hedgehog'],
+	dictionary: [
+		'daenerys',
+		'rhaegal',
+		'stark',
+		'lannister',
+		'targaryen',
+		'dothraki',
+		'arya',
+		'direwolf',
+		'winterfell',
+		'valyrian',
+		'cersei',
+		'jaime',
+		'theon',
+		'tyrion',
+		'dragonglass',
+		'westeros',
+		'unsullied',
+		'brienne',
+		'joffrey',
+		'jon',
+	],
 
 	// check if character is present in array of attempted characters
 	attempted: function (char) {
@@ -64,6 +85,7 @@ const game = {
 
 		//displays hidden word on game screen
 		$('#secret').text(game.secret.hidden.join(' '));
+		$('#stats').text(game.lives);
 	},
 };
 
@@ -96,6 +118,7 @@ $('html').keydown(function (event) {
 				game.over = true;
 			} else if (!guess) {
 				game.lives--;
+				$('#stats').text(game.lives);
 				console.log('wrong guess lives remaining: ' + game.lives);
 
 				// if user is out of lives, reset game

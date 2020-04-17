@@ -35,6 +35,28 @@ footer {
     height: 80%;
     border: 2px solid black;
     display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+}
+
+#secret-container {
+    font-size: 30px;
+    padding: 10px;
+    height: 70%;
+    display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#stats-container {
+    padding: 10px;
+    height: 30%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#stats {
+    color: red;
+    font-size: 25px;
 }
