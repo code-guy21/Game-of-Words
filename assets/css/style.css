@@ -45,10 +45,11 @@ footer {
 #secret-container {
     font-size: 30px;
     padding: 10px;
-    height: 35%;
+    height: 70%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 #stats-container {
@@ -56,9 +57,15 @@ footer {
     height: 30%;
     display: flex;
     justify-content: flex-start;
+    flex-direction: column;
 }
 
-#stats {
+#stats,
+#wins {
     color: red;
     font-size: 25px;
+}
+
+#secret {
+    margin-bottom: 20px;
 }

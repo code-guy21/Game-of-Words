@@ -8,8 +8,10 @@ const game = {
 	over: true,
 
 	//stores number of attempts user has
-	lives: 9,
+	lives: 7,
 
+	//stores number of wins
+	wins: 0,
 	/* secret object stores secret word,
     hidden version revealed to user,
     number of letters correctly solved,
@@ -71,6 +73,7 @@ const game = {
 		$('#music')[0].play();
 
 		//reset values
+
 		game.lives = 9;
 		game.over = false;
 		game.secret = {
@@ -79,6 +82,9 @@ const game = {
 			solved: 0,
 			attempts: [],
 		};
+
+		$('#win-lose').remove();
+		$('#secret').removeAttr('style');
 
 		/* randomly selects a word from dictionary
         assigns this value to secret.word */
@@ -92,18 +98,19 @@ const game = {
 		//displays hidden word on game screen
 		$('#secret').text(game.secret.hidden.join(' '));
 		$('#stats').text(game.lives);
+		$('#wins').text(game.wins);
 	},
 };
 
 // main event listener
 $('html').keydown(function (event) {
-	//if game ended reset it
-	if (game.over) {
-		game.reset();
-	} else {
-		//store key press into variable
-		const keyPress = event.key.toLowerCase();
+	//store key press into variable
+	const keyPress = event.key.toLowerCase();
 
+	//if game ended reset it
+	if (game.over && keyPress === 'enter') {
+		game.reset();
+	} else if (!game.over) {
 		//check if character has already been attempted
 		if (!game.attempted(keyPress)) {
 			// check if character matches any characters in secret word
@@ -117,7 +124,13 @@ $('html').keydown(function (event) {
 			//check if user has guessed every character correctly
 			if (guess && game.secret.solved === game.secret.word.length) {
 				//reset game if secret word has been solved
+				$('#secret').text(game.secret.hidden.join(' '));
+				$('#secret').attr('style', 'text-decoration: underline');
+				$('#secret-container').append(
+					$('<div>You Win</div>').attr('id', 'win-lose')
+				);
 				console.log('You Win!');
+				game.wins++;
 				game.over = true;
 			} else if (!guess) {
 				game.lives--;
@@ -127,6 +140,11 @@ $('html').keydown(function (event) {
 				// if user is out of lives, reset game
 				if (game.lives === 0) {
 					console.log('game over!');
+					$('#secret').text('Game Over');
+					$('#secret').attr('style', 'text-decoration: underline');
+					$('#secret-container').append(
+						$('<div>Press Enter</div>').attr('id', 'win-lose')
+					);
 					game.over = true;
 				}
 			}
