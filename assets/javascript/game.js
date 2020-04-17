@@ -60,6 +60,9 @@ const game = {
 
 		//sets hidden word to an empty string of the same length
 		this.secret.hidden = [...new Array(this.secret.word.length)].map(() => '_');
+
+		//displays hidden word on game screen
+		$('#secret').text(game.secret.hidden.join(' '));
 	},
 };
 
@@ -78,7 +81,7 @@ $('html').keydown(function (event) {
 		//add character to list of attempts characters
 		game.secret.attempts.push(keyPress);
 		//reveal current hidden word
-		console.log(game.secret.hidden.join(' '));
+		$('#secret').text(game.secret.hidden.join(' '));
 
 		//check if user has guessed every character correctly
 		if (guess && game.secret.solved === game.secret.word.length) {
