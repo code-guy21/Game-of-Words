@@ -45,6 +45,7 @@ const game = {
 	reset: function () {
 		//reset values
 		game.lives = 9;
+		game.over = false;
 		game.secret = {
 			word: '',
 			hidden: [],
@@ -70,36 +71,42 @@ game.reset();
 
 // main event listener
 $('html').keydown(function (event) {
-	//store key press into variable
-	const keyPress = event.key.toLowerCase();
-
-	//check if character has already been attempted
-	if (!game.attempted(keyPress)) {
-		// check if character matches any characters in secret word
-		let guess = game.guess(keyPress);
-
-		//add character to list of attempts characters
-		game.secret.attempts.push(keyPress);
-		//reveal current hidden word
-		$('#secret').text(game.secret.hidden.join(' '));
-
-		//check if user has guessed every character correctly
-		if (guess && game.secret.solved === game.secret.word.length) {
-			//reset game if secret word has been solved
-			console.log('You Win!');
-			game.reset();
-		} else if (!guess) {
-			game.lives--;
-			console.log('wrong guess lives remaining: ' + game.lives);
-
-			// if user is out of lives, reset game
-			if (game.lives === 0) {
-				console.log('game over!');
-				game.reset();
-			}
-		}
+	//if game ended reset it
+	if (game.over) {
+		game.reset();
+		game.over = false;
 	} else {
-		//notify user if character has been previously attempted
-		console.log(keyPress + ' has been attempted');
+		//store key press into variable
+		const keyPress = event.key.toLowerCase();
+
+		//check if character has already been attempted
+		if (!game.attempted(keyPress)) {
+			// check if character matches any characters in secret word
+			let guess = game.guess(keyPress);
+
+			//add character to list of attempts characters
+			game.secret.attempts.push(keyPress);
+			//reveal current hidden word
+			$('#secret').text(game.secret.hidden.join(' '));
+
+			//check if user has guessed every character correctly
+			if (guess && game.secret.solved === game.secret.word.length) {
+				//reset game if secret word has been solved
+				console.log('You Win!');
+				game.over = true;
+			} else if (!guess) {
+				game.lives--;
+				console.log('wrong guess lives remaining: ' + game.lives);
+
+				// if user is out of lives, reset game
+				if (game.lives === 0) {
+					console.log('game over!');
+					game.over = true;
+				}
+			}
+		} else {
+			//notify user if character has been previously attempted
+			console.log(keyPress + ' has been attempted');
+		}
 	}
 });
