@@ -4,6 +4,9 @@
  **/
 
 const game = {
+	//current game session
+	over: true,
+
 	//stores number of attempts user has
 	lives: 9,
 
@@ -64,6 +67,9 @@ const game = {
 	},
 
 	reset: function () {
+		//play music
+		$('#music')[0].play();
+
 		//reset values
 		game.lives = 9;
 		game.over = false;
@@ -89,14 +95,11 @@ const game = {
 	},
 };
 
-game.reset();
-
 // main event listener
 $('html').keydown(function (event) {
 	//if game ended reset it
 	if (game.over) {
 		game.reset();
-		game.over = false;
 	} else {
 		//store key press into variable
 		const keyPress = event.key.toLowerCase();
