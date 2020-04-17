@@ -3,7 +3,7 @@ const game = {
 	//stores number of attempts user has
 	lives: 9,
 	//stores previous user guesses
-	attempted: [],
+	attempts: [],
 
 	/* secret object stores secret word,
     hidden version revealed to user,
@@ -17,13 +17,31 @@ const game = {
 	//stores a list of possible secret words
 	dictionary: ['dog', 'cat', 'hamster', 'bird', 'bunny', 'hedgehog'],
 
-	//checks if a specific character is present in the secret word
-	guess: function (char) {},
+	// check if character is present in array of attempted characters
+	attempted: function (char) {
+		return game.attempts.includes(char);
+	},
+
+	// check character against characters in secret word
+	// if there is match, update character in hidden word, update total solved characters
+	guess: function (char) {
+		let counter = 0;
+
+		for (let i = 0; i < this.secret.word.length; i++) {
+			if (this.secret.word[i] === char) {
+				this.secret.hidden[i] = this.secret.word[i];
+				this.secret.solved++;
+				counter++;
+			}
+		}
+
+		return counter > 0;
+	},
 
 	reset: function () {
 		//resets values
 		game.lives = 9;
-		game.attempted = [];
+		game.attempts = [];
 		game.secret.word = '';
 		game.secret.hidden = [];
 		game.secret.solved = 0;
@@ -46,32 +64,22 @@ document.onkeydown = function (event) {
 	//store key press into variable
 	const keyPress = event.key.toLowerCase();
 
-	//check character against characters user has already attempted
-	if (!game.attempted.includes(keyPress)) {
-		// set initial character matches to false
-		let matches = false;
+	//check if character has already been attempted
+	if (!game.attempted(keyPress)) {
+		// check if character matches any characters in secret word
+		let match = game.guess(keyPress);
 
-		// check character against characters in secret word
-		// if there is match, update character in hidden word, set matches to true, update total solved characters
-		for (let i = 0; i < game.secret.word.length; i++) {
-			if (game.secret.word[i] === keyPress) {
-				game.secret.hidden[i] = game.secret.word[i];
-				game.secret.solved++;
-				matches = true;
-			}
-		}
-
-		//add character to list of attempted characters
-		game.attempted.push(keyPress);
+		//add character to list of attempts characters
+		game.attempts.push(keyPress);
 		//reveal current hidden word
 		console.log(game.secret.hidden.join(' '));
 
 		//check if user has guessed every character correctly
-		if (matches && game.secret.solved === game.secret.word.length) {
+		if (match && game.secret.solved === game.secret.word.length) {
 			//reset game if secret word has been solved
 			console.log('You Win!');
 			game.reset();
-		} else if (!matches) {
+		} else if (!match) {
 			game.lives--;
 			console.log('wrong guess lives remaining: ' + game.lives);
 
@@ -82,7 +90,7 @@ document.onkeydown = function (event) {
 			}
 		}
 	} else {
-		//notify user if character has been previously attempted
+		//notify user if character has been previously attempts
 		console.log(keyPress + ' has been attempted');
 	}
 };
