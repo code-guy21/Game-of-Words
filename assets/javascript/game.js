@@ -1,17 +1,21 @@
-//game
+/**
+ * Author:    Alexis San Javier
+ * Created:   04.18.2020
+ **/
+
 const game = {
 	//stores number of attempts user has
 	lives: 9,
-	//stores previous user guesses
-	attempts: [],
 
 	/* secret object stores secret word,
     hidden version revealed to user,
-    number of letters correctly solved */
+    number of letters correctly solved,
+    array of previously attempted letters */
 	secret: {
 		word: '',
 		hidden: [],
 		solved: 0,
+		attempts: [],
 	},
 
 	//stores a list of possible secret words
@@ -19,7 +23,7 @@ const game = {
 
 	// check if character is present in array of attempted characters
 	attempted: function (char) {
-		return game.attempts.includes(char);
+		return game.secret.attempts.includes(char);
 	},
 
 	// check character against characters in secret word
@@ -39,12 +43,14 @@ const game = {
 	},
 
 	reset: function () {
-		//resets values
+		//reset values
 		game.lives = 9;
-		game.attempts = [];
-		game.secret.word = '';
-		game.secret.hidden = [];
-		game.secret.solved = 0;
+		game.secret = {
+			word: '',
+			hidden: [],
+			solved: 0,
+			attempts: [],
+		};
 
 		/* randomly selects a word from dictionary
         assigns this value to secret.word */
@@ -52,7 +58,7 @@ const game = {
 			Math.floor(Math.random() * this.dictionary.length)
 		];
 
-		//sets secret.hidden to an empty string of the same length
+		//sets hidden word to an empty string of the same length
 		this.secret.hidden = [...new Array(this.secret.word.length)].map(() => '_');
 	},
 };
@@ -60,26 +66,26 @@ const game = {
 game.reset();
 
 // main event listener
-document.onkeydown = function (event) {
+$('html').keydown(function (event) {
 	//store key press into variable
 	const keyPress = event.key.toLowerCase();
 
 	//check if character has already been attempted
 	if (!game.attempted(keyPress)) {
 		// check if character matches any characters in secret word
-		let match = game.guess(keyPress);
+		let guess = game.guess(keyPress);
 
 		//add character to list of attempts characters
-		game.attempts.push(keyPress);
+		game.secret.attempts.push(keyPress);
 		//reveal current hidden word
 		console.log(game.secret.hidden.join(' '));
 
 		//check if user has guessed every character correctly
-		if (match && game.secret.solved === game.secret.word.length) {
+		if (guess && game.secret.solved === game.secret.word.length) {
 			//reset game if secret word has been solved
 			console.log('You Win!');
 			game.reset();
-		} else if (!match) {
+		} else if (!guess) {
 			game.lives--;
 			console.log('wrong guess lives remaining: ' + game.lives);
 
@@ -90,7 +96,7 @@ document.onkeydown = function (event) {
 			}
 		}
 	} else {
-		//notify user if character has been previously attempts
+		//notify user if character has been previously attempted
 		console.log(keyPress + ' has been attempted');
 	}
-};
+});
