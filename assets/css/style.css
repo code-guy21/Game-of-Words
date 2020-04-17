@@ -69,3 +69,9 @@ footer {
 #secret {
     margin-bottom: 20px;
 }
+
+@media screen and (max-width: 450px) {
+    #secret-container {
+        font-size: 20px;
+    }
+}
