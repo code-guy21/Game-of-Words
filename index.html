@@ -1,43 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Word Guess</title>
+		<!--GOT Font-->
+		<link rel="stylesheet" href="./assets/css/fonts/stylesheet.css" />
+		<!-- Font Awesome -->
+		<script
+			src="https://kit.fontawesome.com/90b4e777e1.js"
+			crossorigin="anonymous"
+		></script>
+		<!--Reset CSS-->
+		<link rel="stylesheet" href="./assets/css/reset.css" />
+		<!--Custom CSS-->
+		<link rel="stylesheet" href="./assets/css/style.css" />
+		<!--jQuery-->
+		<script
+			src="https://code.jquery.com/jquery-3.5.0.min.js"
+			integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+			crossorigin="anonymous"
+		></script>
+	</head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Guess</title>
-    <!--GOT Font-->
-    <link rel="stylesheet" href="./assets/css/fonts/stylesheet.css">
-    <!--Reset CSS-->
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <!--Custom CSS-->
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <!--jQuery-->
-    <script src="https://code.jquery.com/jquery-3.5.0.min.js"
-        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
-</head>
+	<body>
+		<header>
+			Game of Words
+		</header>
+		<main>
+			<section id="game">
+				<div id="stats-container">
+					<div id="section">
+						<div>Lives : <span id="stats"></span></div>
+						<i id="music" class="fas fa-play"></i>
+					</div>
+					<div>Wins : <span id="wins"></span></div>
+				</div>
+				<div id="secret-container">
+					<div id="secret"></div>
+					<div id="win-lose">Start</div>
+				</div>
+			</section>
+		</main>
+		<footer>
+			Copyright &copy 2020
+		</footer>
 
-<body>
-    <header>
-        Game of Words
-    </header>
-    <main>
-        <section id="game">
-            <div id="stats-container">
-                <div>Lives : <span id="stats"></span></div>
-                <div>Wins : <span id="wins"></span></div>
-            </div>
-            <div id="secret-container">
-                <div id="secret"></div>
-                <div id="win-lose">Click to Start</div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        Copyright &copy 2020
-    </footer>
-    <audio id="music" src="../word-guess-game/assets/audio/got.mp3" preload="auto" controls="none"
-        style="display: none;" loop="true"></audio>
-    <script src="./assets/javascript/game.js"></script>
-</body>
-
+		<script src="./assets/javascript/game.js"></script>
+	</body>
 </html>

@@ -70,7 +70,21 @@ footer {
 }
 
 #win-lose {
-    font-size: 25px;
+    font-size: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    background: #2C302F;
+    transition: transform .3s;
+}
+
+#win-lose:hover {
+    transform: scale(1.05);
+}
+
+#section {
+    display: flex;
+    justify-content: space-between;
 }
 
 
@@ -80,6 +94,6 @@ footer {
     }
 
     #win-lose {
-        font-size: 15px;
+        font-size: 13px;
     }
 }

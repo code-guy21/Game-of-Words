@@ -101,57 +101,72 @@ const game = {
 	},
 };
 
-$('#win-lose').click(function () {
-	//play music
-	$('#music')[0].play();
-	game.reset();
-});
+$(document).ready(function () {
+	let audio = document.createElement('audio');
+	audio.setAttribute('src', '../word-guess-game/assets/audio/got.mp3');
 
-// main event listener
-$('html').keydown(function (event) {
-	//store key press into variable
-	const keyPress = event.key.toLowerCase();
+	$('#music').click(function () {
+		let status = $(this);
+		if (status.attr('class').split(' ')[1] === 'fa-play') {
+			audio.play();
+			status.attr('class', 'fas fa-pause');
+		} else {
+			audio.pause();
+			status.attr('class', 'fas fa-play');
+		}
+	});
 
-	//check if character has already been attempted
-	if (!game.over) {
-		if (!game.attempted(keyPress) && alphabet.includes(keyPress)) {
-			// check if character matches any characters in secret word
-			let guess = game.guess(keyPress);
+	$('#win-lose').click(function () {
+		game.reset();
+	});
 
-			//add character to list of attempts characters
-			game.secret.attempts.push(keyPress);
-			//reveal current hidden word
-			$('#secret').text(game.secret.hidden.join(' '));
+	// main event listener
+	$('html').keydown(function (event) {
+		//store key press into variable
+		const keyPress = event.key.toLowerCase();
 
-			//check if user has guessed every character correctly
-			if (guess && game.secret.solved === game.secret.word.length) {
-				//reset game if secret word has been solved
+		//check if character has already been attempted
+		if (!game.over) {
+			if (!game.attempted(keyPress) && alphabet.includes(keyPress)) {
+				// check if character matches any characters in secret word
+				let guess = game.guess(keyPress);
+
+				//add character to list of attempts characters
+				game.secret.attempts.push(keyPress);
+				//reveal current hidden word
 				$('#secret').text(game.secret.hidden.join(' '));
-				$('#secret').attr('style', 'text-decoration: underline');
-				$('#win-lose').text('continue');
-				$('#win-lose').css('display', 'block');
-				game.wins++;
-				game.lives = 0;
-				$('#stats').text(game.lives);
-				$('#wins').text(game.wins);
-				game.over = true;
-			} else if (!guess) {
-				game.lives--;
-				$('#stats').text(game.lives);
 
-				// if user is out of lives, reset game
-				if (game.lives === 0) {
-					console.log('game over!');
-					$('#secret').text('Game Over');
+				//check if user has guessed every character correctly
+				if (guess && game.secret.solved === game.secret.word.length) {
+					//reset game if secret word has been solved
+					$('#secret').text(game.secret.hidden.join(' '));
 					$('#secret').attr('style', 'text-decoration: underline');
 					$('#win-lose').text('continue');
 					$('#win-lose').css('display', 'block');
+					game.wins++;
+					game.lives = 0;
+					$('#stats').text(game.lives);
+					$('#wins').text(game.wins);
 					game.over = true;
+				} else if (!guess) {
+					game.lives--;
+					$('#stats').text(game.lives);
+
+					// if user is out of lives, reset game
+					if (game.lives === 0) {
+						console.log('game over!');
+						$('#secret').text('Game Over');
+						$('#secret').attr('style', 'text-decoration: underline');
+						$('#win-lose').text('continue');
+						$('#win-lose').css('display', 'block');
+						game.over = true;
+						game.wins = 0;
+					}
 				}
+			} else {
+				//notify user if character has been previously attempted
+				console.log(keyPress + ' has been attempted');
 			}
-		} else {
-			//notify user if character has been previously attempted
-			console.log(keyPress + ' has been attempted');
 		}
-	}
+	});
 });
