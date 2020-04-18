@@ -43,13 +43,12 @@ footer {
 }
 
 #secret-container {
-    font-size: 30px;
     padding: 10px;
     height: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 #stats-container {
@@ -67,11 +66,20 @@ footer {
 }
 
 #secret {
-    margin-bottom: 20px;
+    font-size: 30px;
 }
 
+#win-lose {
+    font-size: 25px;
+}
+
+
 @media screen and (max-width: 450px) {
-    #secret-container {
+    #secret {
         font-size: 20px;
+    }
+
+    #win-lose {
+        font-size: 15px;
     }
 }

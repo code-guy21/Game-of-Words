@@ -3,10 +3,13 @@
  * Created:   04.18.2020
  **/
 
-const game = {
-	//current game session
-	over: true,
+const alphabet = [...new Array(26)].map((char, i) =>
+	String.fromCharCode(i + 97)
+);
 
+const game = {
+	//game session
+	over: true,
 	//stores number of attempts user has
 	lives: 7,
 
@@ -69,13 +72,9 @@ const game = {
 	},
 
 	reset: function () {
-		//play music
-		$('#music')[0].play();
-
 		//reset values
-
-		game.lives = 9;
 		game.over = false;
+		game.lives = 9;
 		game.secret = {
 			word: '',
 			hidden: [],
@@ -83,8 +82,7 @@ const game = {
 			attempts: [],
 		};
 
-		$('#win-lose').remove();
-		$('#secret').removeAttr('style');
+		$('#win-lose').css('display', 'none');
 
 		/* randomly selects a word from dictionary
         assigns this value to secret.word */
@@ -97,22 +95,26 @@ const game = {
 
 		//displays hidden word on game screen
 		$('#secret').text(game.secret.hidden.join(' '));
+		$('#secret').css('text-decoration', 'none');
 		$('#stats').text(game.lives);
 		$('#wins').text(game.wins);
 	},
 };
+
+$('#win-lose').click(function () {
+	//play music
+	$('#music')[0].play();
+	game.reset();
+});
 
 // main event listener
 $('html').keydown(function (event) {
 	//store key press into variable
 	const keyPress = event.key.toLowerCase();
 
-	//if game ended reset it
-	if (game.over && keyPress === 'enter') {
-		game.reset();
-	} else if (!game.over) {
-		//check if character has already been attempted
-		if (!game.attempted(keyPress)) {
+	//check if character has already been attempted
+	if (!game.over) {
+		if (!game.attempted(keyPress) && alphabet.includes(keyPress)) {
 			// check if character matches any characters in secret word
 			let guess = game.guess(keyPress);
 
@@ -126,25 +128,24 @@ $('html').keydown(function (event) {
 				//reset game if secret word has been solved
 				$('#secret').text(game.secret.hidden.join(' '));
 				$('#secret').attr('style', 'text-decoration: underline');
-				$('#secret-container').append(
-					$('<div>You Win</div>').attr('id', 'win-lose')
-				);
-				console.log('You Win!');
+				$('#win-lose').text('continue');
+				$('#win-lose').css('display', 'block');
 				game.wins++;
+				game.lives = 0;
+				$('#stats').text(game.lives);
+				$('#wins').text(game.wins);
 				game.over = true;
 			} else if (!guess) {
 				game.lives--;
 				$('#stats').text(game.lives);
-				console.log('wrong guess lives remaining: ' + game.lives);
 
 				// if user is out of lives, reset game
 				if (game.lives === 0) {
 					console.log('game over!');
 					$('#secret').text('Game Over');
 					$('#secret').attr('style', 'text-decoration: underline');
-					$('#secret-container').append(
-						$('<div>Press Enter</div>').attr('id', 'win-lose')
-					);
+					$('#win-lose').text('continue');
+					$('#win-lose').css('display', 'block');
 					game.over = true;
 				}
 			}
