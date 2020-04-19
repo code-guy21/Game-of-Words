@@ -114,7 +114,10 @@ $(document).ready(function () {
 
 	//audio element for music
 	let audio = document.createElement('audio');
-	audio.setAttribute('src', '../assets/audio/got.mp3');
+	audio.setAttribute(
+		'src',
+		'https://code-guy21.github.io/Word-Guess-Game/assets/audio/got.mp3'
+	);
 	audio.setAttribute('crossorigin', 'anonymous');
 
 	//music button listener
