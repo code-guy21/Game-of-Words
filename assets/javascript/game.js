@@ -3,19 +3,18 @@
  * Created:   04.18.2020
  **/
 
-const alphabet = [...new Array(26)].map((char, i) =>
-	String.fromCharCode(i + 97)
-);
-
+//Game object
 const game = {
-	//game session
+	//tracks if current game is over
 	over: true,
-	//stores number of attempts user has
+
+	//stores number of guesses avaiable to user
 	lives: 7,
 
-	//stores number of wins
+	//stores total number of wins
 	wins: 0,
-	/* secret object stores secret word,
+
+	/* stores the secret word,
     hidden version revealed to user,
     number of letters correctly solved,
     array of previously attempted letters */
@@ -26,7 +25,7 @@ const game = {
 		attempts: [],
 	},
 
-	//stores a list of possible secret words
+	//list of secret words
 	dictionary: [
 		'daenerys',
 		'rhaegal',
@@ -50,31 +49,35 @@ const game = {
 		'jon',
 	],
 
-	// check if character is present in array of attempted characters
+	// checks if character is present in array of attempted characters
 	attempted: function (char) {
 		return game.secret.attempts.includes(char);
 	},
 
-	// check character against characters in secret word
-	// if there is match, update character in hidden word, update total solved characters
+	// checks for matching characters in secret word
 	guess: function (char) {
+		//match counter
 		let counter = 0;
 
 		for (let i = 0; i < this.secret.word.length; i++) {
 			if (this.secret.word[i] === char) {
+				//update hidden word
 				this.secret.hidden[i] = this.secret.word[i];
+				//update number of characters solved
 				this.secret.solved++;
 				counter++;
 			}
 		}
 
+		//return whether any matches were found
 		return counter > 0;
 	},
 
+	// reset game and generate new secret word
 	reset: function () {
-		//reset values
+		//reset stats
 		game.over = false;
-		game.lives = 9;
+		game.lives = 7;
 		game.secret = {
 			word: '',
 			hidden: [],
@@ -82,29 +85,38 @@ const game = {
 			attempts: [],
 		};
 
-		$('#win-lose').css('display', 'none');
+		//hide start button
+		$('#wl').css('display', 'none');
 
-		/* randomly selects a word from dictionary
-        assigns this value to secret.word */
+		// randomly selects a word from dictionary
 		this.secret.word = this.dictionary[
 			Math.floor(Math.random() * this.dictionary.length)
 		];
 
-		//sets hidden word to an empty string of the same length
+		//sets hidden word to an empty string of the same length as secret
 		this.secret.hidden = [...new Array(this.secret.word.length)].map(() => '_');
 
-		//displays hidden word on game screen
+		//displays hidden word and stats on game screen
 		$('#secret').text(game.secret.hidden.join(' '));
 		$('#secret').css('text-decoration', 'none');
-		$('#stats').text(game.lives);
+		$('#lives').text(game.lives);
 		$('#wins').text(game.wins);
 	},
 };
 
+//Game Listener
 $(document).ready(function () {
+	//generates alphabet array
+	//source: Mariam Sallam
+	const alphabet = [...new Array(26)].map((char, i) =>
+		String.fromCharCode(i + 97)
+	);
+
+	//audio element for music
 	let audio = document.createElement('audio');
 	audio.setAttribute('src', '../word-guess-game/assets/audio/got.mp3');
 
+	//music button listener
 	$('#music').click(function () {
 		let status = $(this);
 		if (status.attr('class').split(' ')[1] === 'fa-play') {
@@ -116,55 +128,60 @@ $(document).ready(function () {
 		}
 	});
 
-	$('#win-lose').click(function () {
+	//game reset listener
+	$('#wl').click(function () {
 		game.reset();
 	});
 
-	// main event listener
+	// key press listener
 	$('html').keydown(function (event) {
-		//store key press into variable
+		//store user guess
 		const keyPress = event.key.toLowerCase();
 
-		//check if character has already been attempted
+		//check if current game is over
 		if (!game.over) {
+			//check if character is valid and if user has not attempted it previously
 			if (!game.attempted(keyPress) && alphabet.includes(keyPress)) {
-				// check if character matches any characters in secret word
+				// check if guess is a match
 				let guess = game.guess(keyPress);
-
-				//add character to list of attempts characters
-				game.secret.attempts.push(keyPress);
-				//reveal current hidden word
+				// update hidden word
 				$('#secret').text(game.secret.hidden.join(' '));
 
-				//check if user has guessed every character correctly
+				//add character to list of attempted characters
+				game.secret.attempts.push(keyPress);
+
+				//check if user has guessed full word
 				if (guess && game.secret.solved === game.secret.word.length) {
-					//reset game if secret word has been solved
+					//notify user
 					$('#secret').text(game.secret.hidden.join(' '));
 					$('#secret').attr('style', 'text-decoration: underline');
-					$('#win-lose').text('continue');
-					$('#win-lose').css('display', 'block');
+					$('#wl').text('continue');
+					$('#wl').css('display', 'block');
+
+					//update and display new stats
 					game.wins++;
 					game.lives = 0;
-					$('#stats').text(game.lives);
-					$('#wins').text(game.wins);
 					game.over = true;
-				} else if (!guess) {
-					game.lives--;
-					$('#stats').text(game.lives);
 
-					// if user is out of lives, reset game
+					$('#lives').text(game.lives);
+					$('#wins').text(game.wins);
+				} else if (!guess) {
+					//decrease attempts left
+					game.lives--;
+					$('#lives').text(game.lives);
+
+					//check if user has ran out of attempts
 					if (game.lives === 0) {
 						console.log('game over!');
 						$('#secret').text('Game Over');
 						$('#secret').attr('style', 'text-decoration: underline');
-						$('#win-lose').text('continue');
-						$('#win-lose').css('display', 'block');
+						$('#wl').text('continue');
+						$('#wl').css('display', 'block');
 						game.over = true;
 						game.wins = 0;
 					}
 				}
 			} else {
-				//notify user if character has been previously attempted
 				console.log(keyPress + ' has been attempted');
 			}
 		}

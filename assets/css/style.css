@@ -12,7 +12,6 @@ header {
     text-align: center;
     padding: 20px;
     line-height: 1.5em;
-    box-shadow: 0px 0px 9px 0px #777;
 }
 
 main {
@@ -29,7 +28,6 @@ footer {
     text-align: center;
     font-family: sans-serif;
     font-weight: lighter;
-    box-shadow: 0px 0px 9px 0px #777;
 }
 
 #game {
@@ -38,8 +36,13 @@ footer {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    box-shadow: 0px 0px 9px 0px #777;
     border-radius: 10px;
+}
+
+footer,
+header,
+#game {
+    box-shadow: 0px 0px 9px 0px #777;
 }
 
 #secret-container {
@@ -59,7 +62,7 @@ footer {
     flex-direction: column;
 }
 
-#stats,
+#lives,
 #wins {
     color: red;
     font-size: 25px;
@@ -69,7 +72,7 @@ footer {
     font-size: 30px;
 }
 
-#win-lose {
+#wl {
     font-size: 20px;
     padding: 15px;
     border-radius: 10px;
@@ -78,11 +81,11 @@ footer {
     transition: transform .3s;
 }
 
-#win-lose:hover {
+#wl:hover {
     transform: scale(1.05);
 }
 
-#section {
+#stats {
     display: flex;
     justify-content: space-between;
 }
@@ -93,7 +96,7 @@ footer {
         font-size: 20px;
     }
 
-    #win-lose {
+    #wl {
         font-size: 13px;
     }
 }
