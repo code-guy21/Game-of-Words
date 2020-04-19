@@ -114,7 +114,7 @@ $(document).ready(function () {
 
 	//audio element for music
 	let audio = document.createElement('audio');
-	audio.setAttribute('src', '../word-guess-game/assets/audio/got.mp3');
+	audio.setAttribute('src', '../assets/audio/got.mp3');
 
 	//music button listener
 	$('#music').click(function () {
