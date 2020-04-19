@@ -63,14 +63,14 @@ header,
 }
 
 #lives,
-#wins,
-#guessed {
-    color: red;
+#wins {
+    color: #C00D22;
     font-size: 25px;
 }
 
 #guessed {
     font-size: 15px;
+    color: #2FC0F2;
 }
 
 #secret {
