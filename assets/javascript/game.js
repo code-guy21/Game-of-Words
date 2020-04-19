@@ -115,6 +115,7 @@ $(document).ready(function () {
 	//audio element for music
 	let audio = document.createElement('audio');
 	audio.setAttribute('src', '../assets/audio/got.mp3');
+	audio.setAttribute('crossorigin', 'anonymous');
 
 	//music button listener
 	$('#music').click(function () {
