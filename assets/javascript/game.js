@@ -101,6 +101,7 @@ const game = {
 		$('#secret').css('text-decoration', 'none');
 		$('#lives').text(game.lives);
 		$('#wins').text(game.wins);
+		$('#guessed').text(game.secret.attempts.join(' '));
 	},
 };
 
@@ -153,6 +154,7 @@ $(document).ready(function () {
 
 				//add character to list of attempted characters
 				game.secret.attempts.push(keyPress);
+				$('#guessed').text(game.secret.attempts.join(' '));
 
 				//check if user has guessed full word
 				if (guess && game.secret.solved === game.secret.word.length) {

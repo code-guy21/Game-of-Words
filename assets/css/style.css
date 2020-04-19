@@ -47,7 +47,7 @@ header,
 
 #secret-container {
     padding: 10px;
-    height: 70%;
+    height: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,16 +56,21 @@ header,
 
 #stats-container {
     padding: 10px;
-    height: 30%;
+    height: 40%;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
 }
 
 #lives,
-#wins {
+#wins,
+#guessed {
     color: red;
     font-size: 25px;
+}
+
+#guessed {
+    font-size: 15px;
 }
 
 #secret {
@@ -90,6 +95,9 @@ header,
     justify-content: space-between;
 }
 
+.data {
+    padding: 5px;
+}
 
 @media screen and (max-width: 450px) {
     #secret {
@@ -98,5 +106,9 @@ header,
 
     #wl {
         font-size: 13px;
+    }
+
+    #guessed {
+        font-size: 10px;
     }
 }
