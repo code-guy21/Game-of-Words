@@ -2,7 +2,7 @@
 
 This is a hangman style game, themed around Game of Thrones.
 
-If you want to play the game, [click here](https://code-guy21.github.io/Word-Guess-Game/) !
+If you want to play the game, [click here](https://code-guy21.github.io/Game-of-Words/) !
 
 ## Rules
 
